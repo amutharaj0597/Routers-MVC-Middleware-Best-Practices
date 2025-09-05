@@ -5,7 +5,6 @@ const todoRoutes = require('./routes/todoRoutes');
 app.use(express.json());
 app.use('/todos', todoRoutes);
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: '404 Not Found' });
 });
