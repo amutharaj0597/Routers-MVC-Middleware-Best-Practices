@@ -8,24 +8,24 @@ const tasksFile = path.join(__dirname, 'tasks.json');
 
 app.use(express.json());
 
-// 🔧 Utility: Read tasks from file
+
 const readTasks = () => {
   const data = fs.readFileSync(tasksFile, 'utf8');
   return JSON.parse(data || '[]');
 };
 
-// 🔧 Utility: Write tasks to file
+
 const writeTasks = (tasks) => {
   fs.writeFileSync(tasksFile, JSON.stringify(tasks, null, 2));
 };
 
-// ✅ GET /tasks → Return all tasks
+
 app.get('/tasks', (req, res) => {
   const tasks = readTasks();
   res.json(tasks);
 });
 
-// ✅ GET /tasks/filter?tag=frontend → Filter by tag
+
 app.get('/tasks/filter', (req, res) => {
   const { tag } = req.query;
   const tasks = readTasks();
@@ -33,7 +33,7 @@ app.get('/tasks/filter', (req, res) => {
   res.json(filtered);
 });
 
-// ✅ POST /tasks → Add new task
+
 app.post('/tasks', (req, res) => {
   const { title, description, tag, priority, status } = req.body;
 
@@ -43,7 +43,7 @@ app.post('/tasks', (req, res) => {
 
   const tasks = readTasks();
   const newTask = {
-    id: Date.now(), // simple unique ID
+    id: Date.now(),
     title,
     description,
     tag,
@@ -57,7 +57,7 @@ app.post('/tasks', (req, res) => {
   res.status(201).json({ message: 'Task created', task: newTask });
 });
 
-// ✅ PUT /tasks/:id → Update task
+
 app.put('/tasks/:id', (req, res) => {
   const { id } = req.params;
   const tasks = readTasks();
@@ -73,7 +73,7 @@ app.put('/tasks/:id', (req, res) => {
   res.json({ message: 'Task updated', task: tasks[index] });
 });
 
-// ✅ DELETE /tasks/:id → Delete task
+
 app.delete('/tasks/:id', (req, res) => {
   const { id } = req.params;
   const tasks = readTasks();
@@ -89,7 +89,7 @@ app.delete('/tasks/:id', (req, res) => {
   res.json({ message: 'Task deleted', task: deleted[0] });
 });
 
-// ❌ 404 for undefined routes
+
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
